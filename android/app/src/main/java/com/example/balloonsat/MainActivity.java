@@ -51,6 +51,7 @@ public class MainActivity extends Activity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("ballsat", "In on Receive");
             if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
                 boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
                 if (granted) {
@@ -117,21 +118,32 @@ public class MainActivity extends Activity {
     }
 
     public void onClickStart(View view) {
-        //tvAppend(textView, "\nI'm in onClickStart\n"); - Success
+        Log.d("ballsat", "In onClickStart.");
+        tvAppend(textView, "In onClickStart.\n");
+
         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
-        //tvAppend(textView, "\nGot device list!\n"); - Success
+        Log.d("ballsat", "Got dev list.");
+        tvAppend(textView, "Got dev list.\n");
+
         if (!usbDevices.isEmpty()) {
-            //tvAppend(textView, "\nList is not empty!\n"); - Success
+            Log.d("ballsat", "List not empty.");
+            tvAppend(textView, "List not empty.\n");
             boolean keep = true;
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
                 int deviceVID = device.getVendorId();
                 if (deviceVID == 0x2341)//Arduino Vendor ID
                 {
-                    //tvAppend(textView, "\nFound an Arduino!\n"); - Success
+                    Log.d("ballsat", "Found an Arduino.");
+                    tvAppend(textView, "Found an Arduino.\n");
+
                     PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-                    //tvAppend(textView, "\nPending Intent Filed.\n"); - Success
-                    usbManager.requestPermission(device, pi); // FAILS
+                    Log.d("ballsat", "Intent created.");
+                    tvAppend(textView, "Intent created.\n");
+
+                    //usbManager.requestPermission(device, pi); // FAILS
+                    Log.d("ballsat", "Got permission!");
+                    tvAppend(textView, "Got permission!.\n");
                     keep = false;
                 } else {
                     connection = null;
