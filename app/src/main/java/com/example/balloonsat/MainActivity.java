@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
                     Log.d("ballsat", "Intent created.");
                     tvAppend(textView, "Intent created.\n");
 
-                    //usbManager.requestPermission(device, pi); // FAILS
+                    usbManager.requestPermission(device, pi); // FAILS
                     Log.d("ballsat", "Got permission!");
                     tvAppend(textView, "Got permission!.\n");
                     keep = false;
